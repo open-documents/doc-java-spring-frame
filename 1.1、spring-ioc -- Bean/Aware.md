@@ -1,0 +1,5 @@
+
+BeanClassLoaderAware
+BeanFactoryAware
+EnvironmentAware
+ResourceLoaderAware

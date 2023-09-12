@@ -1,0 +1,23 @@
+# CommonAnnotationBeanPostProcessor
+
+1）能够识别的注解：（Spring2.5）
+- @Resource
+- jakarta.annotation.PostConstruct
+- jakarta.annotation.PreDestroy
+
+虽然BeanPostProcessor注册的推荐方法是通过ApplicationContext自动检测(如前所述)，但是可以通过使用addBeanPostProcessor方法以编程方式在可配置BeanFactory上注册它们。当您需要在注册之前评估条件逻辑，甚至需要在层次结构中跨上下文复制bean post处理器时，这将非常有用。但注意，以编程方式添加的Bean PostProcessor实例并不尊重Ordered接口。这里，登记的先后顺序决定了执行的先后顺序。另外需要注意的是，以编程方式注册的Bean PostProcessor实例总是先于通过自动检测注册的实例进行处理，而不管是否有明确的排序。
+
+Bean PostProcessor实例和AOP自动代理
+实现Bean PostProcessor接口的类是特殊的，容器会区别对待。所有Bean PostProcessor实例及其直接引用的bean在启动时被实例化，作为ApplicationContext特殊启动阶段的一部分。然后，将所有Bean PostProcessor实例按排序方式注册，并应用于容器中所有进一步的bean。由于AOP自动代理是作为Bean PostProcessor本身实现的，因此Bean PostProcessor实例和它们直接引用的bean都不具备自动代理的资格，也就不存在编织的方面。
+
+# AutowiredAnnotationBeanPostProcessor
+
+完成的功能：
+1）Spring distribution
+2）自动装配注解标注的field。
+3）自动装配注解标注的method。
+4）自动装配注解标注的任意config methods。
+
+# 补充
+
+@Autowired, @Inject, @Value, and @Resource 这些注解由BeanPostProcessor处理，因此不能在BeanPostProcessor和BeanFactoryPostProcessor内部使用这些注解。BeanPostProcessor和BeanFactoryPostProcessor类型的装配必须使用XML或@Bean方法。
